@@ -1,22 +1,22 @@
-# 使用官方 maven/Java 8 镜像作为构建环境
-# https://hub.docker.com/_/maven
-FROM maven:3.6-jdk-11 as builder
+FROM openjdk:8-jre
+LABEL authors="chen-v1.0"
+MAINTAINER chen-v1.0
+#LABEL maintainer=
+LABEL image.name="fshop"
+# VOLUME 指定临时文件目录为/tmp，在主机/var/lib/docker目录下创建了一个临时文件并链接到容器的/tmp
+RUN mkdir -p /home/ruoyi-bot
+# 挂载目录
+VOLUME /home/fshop
+# 创建目录
 
-# 将代码复制到容器内
-WORKDIR /app
-COPY pom.xml .
-COPY src ./src
+# 指定路径
+WORKDIR /home/fshop
+COPY target/*.jar /app.jar
+# 将jar包添加到容器中并更名
+#ADD target/ruoyi-admin.jar ruoyi-admin.jar
+# 暴露端口
+EXPOSE 9000
+ENV TZ=Asia/Shanghai
+ENTRYPOINT ["java","-Djavasecurity.egd=file:/dev/./urandom","-jar","/app.jar"]
 
-# 构建项目
-RUN mvn package -DskipTests
-
-# 使用 AdoptOpenJDK 作为基础镜像
-# https://hub.docker.com/r/adoptopenjdk/openjdk8
-# https://docs.docker.com/develop/develop-images/multistage-build/#use-multi-stage-builds
-FROM adoptopenjdk/openjdk11:alpine-slim
-
-# 将 jar 放入容器内
-COPY --from=builder /app/target/*.jar /helloworld.jar
-
-# 启动服务
-CMD ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/helloworld.jar"]
+#ENTRYPOINT ["top", "-b"]
