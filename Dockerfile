@@ -4,7 +4,7 @@ MAINTAINER chen-v1.0
 #LABEL maintainer=
 LABEL image.name="fshop"
 # VOLUME 指定临时文件目录为/tmp，在主机/var/lib/docker目录下创建了一个临时文件并链接到容器的/tmp
-RUN mkdir -p /home/ruoyi-bot
+RUN mkdir -p /home/fshop
 # 挂载目录
 VOLUME /home/fshop
 # 创建目录
