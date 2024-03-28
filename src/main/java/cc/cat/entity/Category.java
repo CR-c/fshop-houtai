@@ -8,29 +8,26 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class User {
+public class Category {
 
-    //微信用户id
-    private String openId;
-    //微信昵称
-    private String nickname;
-    //年龄
-    private Integer age;
-    //性别
-    private Integer sex;
-    //手机号码
-    private String phone;
-    //状态
-    private Integer status;
-    //微信头像
-    private String pic;
+    //分类名字
+    private String categoryName;
+    //分类id
+    private Integer categoryId;
+    //
+
     //创建时间
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
     //更新时间
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
-
-//    private String updateUser;
-
+    //创建用户id
+    private String createUser;
+    //更新用户id
+    private String updateUser;
+    //是否为子分类
+    private int categoryChildren;
+    //主分类id
+    private int categoryFather;
 }

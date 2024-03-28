@@ -1,0 +1,13 @@
+server:
+  port: 9000
+
+
+SSH:
+  # 本地centos服务器
+  url: 192.168.138.100
+  username: root
+  password: 3
+  port : 22
+  #图片路径
+  imagePath: /upload
+#  path: /usr/fshop-image
