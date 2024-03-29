@@ -69,7 +69,7 @@ jobs:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
 #          tags:
-          tags: chenbb/fshop:latest
+          tags: chenbb352/fshop:latest
 #          tags: peanutsplash/${{github.ref_name}}
 #          labels: ${{ steps.meta.outputs.labels }}
           labels: ${{ env.LABEL}}
