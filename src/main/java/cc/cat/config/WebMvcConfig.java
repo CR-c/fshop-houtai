@@ -2,16 +2,23 @@ package cc.cat.config;
 
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import cc.cat.common.JacksonObjectMapper;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
 import java.util.List;
 
 @Slf4j
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurationSupport {
+
 
     /**
      * 设置静态资源映射
