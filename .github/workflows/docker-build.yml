@@ -74,15 +74,25 @@ jobs:
 #          labels: ${{ steps.meta.outputs.labels }}
           labels: ${{ env.LABEL}}
 #          tags: ${{ env.TAG}}
-      - name: login centos
-        run|:
-          host: ${{ secrets.SERVER_HOST }} # 服务器ip地址 ; 需要去仓库的 settings/secrets/actions 去创建
-          username: ${{ secrets.SERVER_USER }} # 服务器用户名称；需要去仓库的 settings/secrets/actions 去创建
-          password: ${{ secrets.SERVER_PWD }} # 服务器密码；需要去仓库的 settings/secrets/actions 去创建
-          port: ${{ secrets.SERVER_PORT }} # 服务器端口，默认22；需要去仓库的 settings/secrets/actions 去创建
-      - name: update_docker
-        run|:
-          ./update_fshop.sh
+      - name: Install sshpass
+        run: sudo apt-get install -y sshpass
+      - name: Execute SSH command
+        env:
+          SSH_HOST: ${{ secrets.SERVER_HOST }}
+          SSH_USER: ${{ secrets.SERVER_USER }}
+          SSH_PASSWORD: ${{ secrets.SERVER_PWD }}
+          SSH_PORT: ${{ secrets.SERVER_PORT }}]
+        run: |
+          sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST -p $SSH_PORT 'bash -s' < ./update_fshop.sh
+#      - name: login centos
+#        run|:
+#          host: ${{ secrets.SERVER_HOST }} # 服务器ip地址 ; 需要去仓库的 settings/secrets/actions 去创建
+#          username: ${{ secrets.SERVER_USER }} # 服务器用户名称；需要去仓库的 settings/secrets/actions 去创建
+#          password: ${{ secrets.SERVER_PWD }} # 服务器密码；需要去仓库的 settings/secrets/actions 去创建
+#          port: ${{ secrets.SERVER_PORT }} # 服务器端口，默认22；需要去仓库的 settings/secrets/actions 去创建
+#      - name: update_docker
+#        run|:
+#          ./update_fshop.sh
 
 
 
