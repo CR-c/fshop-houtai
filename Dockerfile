@@ -15,7 +15,7 @@ COPY target/*.jar /app.jar
 # 将jar包添加到容器中并更名
 #ADD target/ruoyi-admin.jar ruoyi-admin.jar
 # 暴露端口
-EXPOSE 9000
+EXPOSE 9001
 ENV TZ=Asia/Shanghai
 ENTRYPOINT ["java","-Djavasecurity.egd=file:/dev/./urandom","-jar","/app.jar"]
 
