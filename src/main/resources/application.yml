@@ -1,16 +1,16 @@
 server:
   port: 9000
 
-spring:
-  mvc:
-    static-path-pattern: /resources/**
-  web:
-    resources:
-      static-locations:
-        - classpath:/static/
-        - classpath:/public/
-        - classpath:/resources/
-        - classpath:/META-INF/resources/
+#spring:
+#  mvc:
+#    static-path-pattern: /resources/**
+#  web:
+#    resources:
+#      static-locations:
+#        - classpath:/static/
+#        - classpath:/public/
+#        - classpath:/resources/
+#        - classpath:/META-INF/resources/
 
 SSH:
   # 本地centos服务器
