@@ -83,7 +83,7 @@ jobs:
           SSH_PASSWORD: ${{ secrets.SERVER_PWD }}
           SSH_PORT: ${{ secrets.SERVER_PORT }}]
         run: |
-          sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST -p $SSH_PORT 'bash -s' < ./update_fshop.sh
+          sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST -p $SSH_PORT './update_fshop.sh'
 #      - name: login centos
 #        run|:
 #          host: ${{ secrets.SERVER_HOST }} # 服务器ip地址 ; 需要去仓库的 settings/secrets/actions 去创建
