@@ -1,24 +1,22 @@
 server:
-  port: 9001
+  port: 5600
 
-#spring:
-#  mvc:
-#    static-path-pattern: /resources/**
-#  web:
-#    resources:
-#      static-locations:
-#        - classpath:/static/
-#        - classpath:/public/
-#        - classpath:/resources/
-#        - classpath:/META-INF/resources/
-
-SSH:
-  # 本地centos服务器
-  url: 192.168.138.100
-  username: root
-  password: 3
-  port : 22
-  #图片路径
-  imagePath: /upload
+spring:
+  application:
+    name: fshop
+  ftp:
+    ip: 47.115.213.55
+    port: 21
+    username: fshop
+    password: sKnGedm4sZN7R67w
+    path: /www/wwwroot/fshop
+#SSH:
+#  # 本地centos服务器
+#  url: 192.168.138.100
+#  username: root
+#  password: 3
+#  port : 22
+#  #图片路径
+#  imagePath: /upload
 #  path: /usr/fshop-image
 

@@ -2,15 +2,21 @@ package cc.cat.controller.common;
 
 
 import cc.cat.common.R;
-import cc.cat.utils.SshUtils;
+import cc.cat.config.FtpConfig;
+import cc.cat.entity.User;
+import cc.cat.service.UserService;
+import cc.cat.utils.*;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.jcraft.jsch.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -25,36 +31,42 @@ public class CommonController {
 //    private String url;
 
 //    //使用application.yml中 image.path属性
-    @Value("${SSH.imagePath}")
-    private String imagePath;
+//    @Value("${spring.ftp.path}")
+//    private String path;
+    private String userId;
+    @Autowired
+    private FtpUtils ftpUtil;
 
-//    private SshUtils sshUtils
+    @Autowired
+    private FileUtils fileUtils;
+
+    @Autowired
+    private UserService userService;
+    //    private SshUtils sshUtils
     @Autowired
     private SshUtils sshUtils;
     @PostMapping("/upLoad")
-    public R<String> upLoad(MultipartFile file) {
-        Session jSchSession = null;
-        ChannelSftp sftp=null;
-        try{
-            jSchSession = sshUtils.connect().getData();
-            sftp = (ChannelSftp) jSchSession.openChannel("sftp");
-            sftp.connect();;
-            sftp.setFilenameEncoding("UTF-8");
-            InputStream inputStream = file.getInputStream();
-            sftp.put(inputStream,imagePath+file.getName());
-            return R.success("上传成功");
-        } catch (JSchException | SftpException | IOException e) {
-            throw new RuntimeException(e);
-        }finally {
-//            // 关闭sftpChannel
-//            if (sftp != null && sftp.isConnected()) {
-//                sftp.quit();
-//            }
-//            if (jSchSession != null && jSchSession.isConnected()) {
-//                jSchSession.disconnect();
-//            }
+    public R<String> upLoad(@RequestBody MultipartFile file, HttpServletRequest httpServletRequest) {
+        userId = HeadUtils.getHeadUserId(httpServletRequest);
+        if(file==null || file.isEmpty()){
+            return R.error("文件为空");
         }
 
+        try {
+            //获取文件名称
+//            String fileName = file.getOriginalFilename();
+            String fileName = fileUtils.fileRename(file);
+            String path = '/'+userId+'/';
+            boolean upload = ftpUtil.upload(path, fileName, file.getInputStream());
+            if(upload){
+
+                return R.success("文件上传成功");
+            }else {
+                return R.error("文件上传失败");
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 

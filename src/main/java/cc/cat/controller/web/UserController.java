@@ -3,6 +3,8 @@ package cc.cat.controller.web;
 import cc.cat.common.R;
 import cc.cat.entity.User;
 import cc.cat.service.UserService;
+import cc.cat.utils.FileUtils;
+import cc.cat.utils.FtpUtils;
 import cc.cat.utils.HeadUtils;
 import cc.cat.utils.HttpClientUtils;
 import com.alibaba.fastjson.JSONObject;
@@ -12,8 +14,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/user")
@@ -21,13 +25,17 @@ import javax.servlet.http.HttpServletRequest;
 public class UserController {
     @Autowired
     private UserService userService;
-
+    @Autowired
+    private FtpUtils ftpUtils;
+    @Autowired
+    private FileUtils fileUtils;
 
     private final static String WX_OPEN_APP_ID="wx304ecd5300aeb9db";
 
     private final static String WX_OPEN_APP_SECRET="b3f580ea60b0dcf0e108980d54a55a6f";
 
     private static String baseUrl="";
+
 
 
     @PostMapping("/app/updateUserInfo")
@@ -44,6 +52,33 @@ public class UserController {
             return R.success("更新成功");
         }
         return R.error("更新失败");
+    }
+
+    @PostMapping("/app/updUser_pic")
+    public R<String> updUser_pic(@RequestBody MultipartFile file,HttpServletRequest request){
+        String userId = HeadUtils.getHeadUserId(request);
+        if(file==null || file.isEmpty()){
+            return R.error("文件为空");
+        }
+        try {
+            //获取文件名称
+//            String fileName = file.getOriginalFilename();
+            String fileName = fileUtils.fileRename(file);
+            String path = '/'+ userId +'/';
+            boolean upload = ftpUtils.upload(path, fileName, file.getInputStream());
+            if(upload){
+                LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+                queryWrapper.eq(User::getOpenId,userId);
+                User user = userService.getOne(queryWrapper);
+                user.setPic(path+fileName);
+                userService.update(user,queryWrapper);
+                return R.success("文件上传成功");
+            }else {
+                return R.error("文件上传失败");
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @GetMapping("/app/userInfo")

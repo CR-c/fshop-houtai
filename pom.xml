@@ -9,14 +9,25 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>cc</groupId>
-    <artifactId>Cat</artifactId>
+    <artifactId>fshop-ui</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>ccCat</name>
 <!--    微信云托管-->
     <packaging>jar</packaging>
     <description>ccCat</description>
     <properties>
+        <mybatis.version>3.5.3.1</mybatis.version>
+        <lombok.version>1.18.20</lombok.version>
         <java.version>1.8</java.version>
+        <pageHelp.version>1.4.7</pageHelp.version>
+        <httpclient.version>4.5.1</httpclient.version>
+        <commons-io.version>2.6</commons-io.version>
+        <commons-lang.version>2.6</commons-lang.version>
+        <fastjson.version>1.2.76</fastjson.version>
+        <hutool-core.version>5.6.5</hutool-core.version>
+        <jsch.version>0.1.55</jsch.version>
+        <commons-net.version>3.3</commons-net.version>
+
     </properties>
     <dependencies>
         <!--thymeleaf模板引擎-->
@@ -29,18 +40,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        <!--        swagger-->
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-        </dependency>
-        <!--        mybaits-plus-->
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.5.3.1</version>
         </dependency>
         <!--        mysql-java-->
         <dependency>
@@ -48,17 +51,24 @@
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
         </dependency>
+        <!--        mybaits-plus-->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>${mybatis.version}</version>
+        </dependency>
+
         <!--        lombok-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.20</version>
+            <version>${lombok.version}</version>
         </dependency>
         <!--        page-helper-->
         <dependency>
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper-spring-boot-starter</artifactId>
-            <version>1.4.7</version>
+            <version>${pageHelp.version}</version>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
@@ -68,40 +78,49 @@
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
-            <version>4.5.1</version>
+            <version>${httpclient.version}</version>
         </dependency>
         <!--        io-->
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.6</version>
+            <version>${commons-io.version}</version>
         </dependency>
         <!--        json-->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.76</version>
+            <version>${fastjson.version}</version>
         </dependency>
 
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
-            <version>2.6</version>
+            <version>${commons-lang.version}</version>
         </dependency>
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-core</artifactId>
-            <version>5.6.5</version>
+            <version>${hutool-core.version}</version>
         </dependency>
 <!--        sftp操纵服务器-->
         <dependency>
             <groupId>com.jcraft</groupId>
             <artifactId>jsch</artifactId>
-            <version>0.1.55</version>
+            <version>${jsch.version}</version>
         </dependency>
-
-
-
+<!--        ftp-->
+        <dependency>
+            <groupId>commons-net</groupId>
+            <artifactId>commons-net</artifactId>
+            <version>${commons-net.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <version>8.0.31</version>
+        </dependency>
 
 
     </dependencies>
